@@ -4,9 +4,9 @@ var app = express();
 
 var bodyParser= require('body-parser');
 var con = mysql.createConnection({
-	host:'microserviciopractica.mysql.database.azure.com',
-	user:'Yerry',
-	password:'c0ntr4s3n4p0rm1shu3v0s!!!',
+	host:'microservicio-basico-server-basedatos.mysql.database.azure.com',
+	user:'slhvvwfwqq',
+	password:'4547K2771HW2C1RI$',
 	database:'microservicio',
 	port: "3306"
 })
