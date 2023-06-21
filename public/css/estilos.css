@@ -1,0 +1,19 @@
+ 
+.*{
+	
+
+}
+body{
+	background-image: url("imagenes/background.jpg");
+}
+
+h1, h2, form{
+	
+	text-align: center;
+}
+
+hr{
+  
+  background-color: yellow;
+
+}

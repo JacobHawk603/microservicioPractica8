@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html>
+<link rel="stylesheet" type="text/css" href="css/Estilo.css">
+<script type="text/javascript" src="js/validaciones.js"></script>
+<head>
+	<title>Node con Mysql</title>
+</head>
+<body>
+
+	<h1>Formulario Crud (>w<)</h1>
+
+	<hr size="5"><br><br>
+
+	<table cellspacing="20" border="7">
+		<tr>
+		<td>
+			<h2>Usuarios
+
+				<br><br>
+			<form action="/getUsuarios" method="get">
+		<input type="submit" value="consultar carne fresca ¬¬" style="background-color: red;">
+		<!--a href="/getUsuarios">Obtener usuarios </a-->
+	</form>
+	<hr>
+</h2>
+		</td>
+		<td>
+			<h2>Quieres jugar un juego? Registrate y serás redireccionado!
+
+				<form action="/agregarUsuario" method ="post">
+			
+				<input type="text" name="nombre" placeholder="Nombre del Usuario" maxlength="30" id="name">
+				
+				<input type="submit" value="Agregar Usuario" style="background-color: lightblue" onclick="return validar(nombre)">
+		</form>
+		<hr>
+	</h2>
+		
+
+		</td>
+		</tr>
+		<tr>
+		<td>
+			<h2>elimina un usuario
+			<form action="/eliminarUsusario" method="post">
+		<input type="text" name="nombre" placeholder="acaba con quien te bajo a la novia (-_-)" maxlength="30" size="30">
+
+		<br><br>
+		<input type="submit" value="Justicia Divina" style="background-color: green" >
+	</form>
+	<hr>
+</h2>
+	
+		</td>
+		<td>
+			<h2>modifica un registro
+	<form action="/modificarUsuario" method="post">
+		<input type="text" name="nombreInicial" placeholder="Acusado" maxlength="30">
+		<br><br>
+		<input type="text" name="nombreFinal" placeholder="nueva victima" maxlength="30">
+		<br>
+		<input type="submit" value="Metamorphosis" style="background-color: yellow">
+
+	</form>
+	<hr>
+	</h2>
+		</td>
+	</table>
+	</h2>
+
+</body>
+</html>

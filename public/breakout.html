@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gamedev Canvas Workshop</title>
+    <style>
+    	* { padding: 0; margin: 0; }
+    	canvas { background: #eee; display: block; margin: 0 auto; }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas" width="480" height="320"></canvas>
+    <script>
+    //creamos la variable que controle el  canvas
+        var canvas=document.getElementById('myCanvas');
+    //creamos la variable ctx para manipular los dibujos
+        var ctx=canvas.getContext('2d');
+    //agregamos las variables para el movimiento
+        var x=canvas.width/2;
+        var y=canvas.height-40;
+    //agregamos tambien variables de cambio dx y dy
+        var dx=2;
+        var dy=-2;
+    //Definimos una variable para establecer el radio de la bola
+        var ballRadius=10;
+    //Definimos tambien las variables para la barra del juego
+        var paddleWidth=50;
+        var paddleHeight=10;
+        var paddleX=(canvas.width-paddleWidth)/2;
+        var paddleY=30;
+    //Definimos tambien las variables de control
+        var rightPressed=false;
+        var leftPressed=false;
+    //Agregamos las variables para el muro de ladrillos
+        var brickRowCount=3;
+        var brickColoumnCount=5;
+        var brickWidth=75;
+        var brickHeight=20;
+        var brickPadding=10;
+        var brickOffSetTop=30;
+        var briskOffSetLeft=30;
+        var bricks=[];
+        var score=0;
+    //Agregamos una variable para dar vidas al jugador
+        var lives=3;
+    //Definimos el bucle que permitirá dibujar los ladrillos, haremos una matriz de datos
+        for(c=0; c<brickColoumnCount; c++){
+            bricks[c]=[];
+            for(r=0; r<brickRowCount; r++){
+                bricks[c][r]={x:0,y:0, status:1};
+            }
+        }
+    //Definimos los eventos (presionar teclas y control del mouse)
+        document.addEventListener("keydown",keyDownHandler,false);
+        document.addEventListener("keyup",keyUpHandler,false);
+        document.addEventListener("mousemove",mouseMoveHandler,false);
+
+        function mouseMoveHandler(e){
+        //para el movimiento del mouse necesitamos una variable para definir el movimiento horizontal en este caso
+            var relativeX=e.clientX - canvas.offsetLeft;
+            if(relativeX>0 && relativeX<canvas.width){
+                paddleX=relativeX-paddleWidth/2;
+            }
+        }        
+
+        function keyDownHandler(e){
+            if(e.keyCode==39){
+                rightPressed=true;
+            }else if(e.keyCode==37){
+                leftPressed=true;
+            }
+            
+        }
+        function keyUpHandler(e){
+            if(e.keyCode==39){
+                rightPressed=false;
+            }else if(e.keyCode==37){
+                leftPressed=false;
+            }
+        }        
+            
+    //creamos las funciones para realizar la animación
+    
+        function drawBall(){
+        //creamos la bola
+            ctx.beginPath();
+            ctx.arc(x,y,ballRadius,1,Math.PI*2);
+            ctx.fillStyle="#0095DD";
+            ctx.fill();
+            ctx.closePath();
+        }
+        function drawPaddle(){
+            ctx.beginPath();
+            ctx.rect(paddleX,canvas.height-paddleY,paddleWidth,paddleHeight);
+            ctx.fillStyle="#0095DD";
+            ctx.fill();
+            ctx.closePath();
+        }
+        //Ahora procedermos a dibujar los ladrillos en el lienzo
+        function drawBricks(){
+            for(c=0; c<brickColoumnCount; c++){
+                for(r=0; r<brickRowCount; r++){
+                //Definamos las variables coordenadas para los ladrillos
+                    if(bricks[c][r].status==1){
+                        var brickX=(c*(brickPadding+brickWidth))+briskOffSetLeft;
+                        var brickY=(r*(brickHeight+brickPadding))+brickOffSetTop;
+                        bricks[c][r].x=brickX;
+                        bricks[c][r].y=brickY;
+                        ctx.beginPath();
+                        ctx.rect(brickX,brickY,brickWidth,brickHeight);
+                        ctx.fillStyle="#0095DD";
+                        ctx.fill();
+                        ctx.closePath();
+                    }
+                }
+            }
+        }
+        //Crearemos una funcion para mapear detectar las coliciones con los ladrillos
+        function collisionDetection(){
+            for(c=0; c<brickColoumnCount; c++){
+                for(r=0; r<brickRowCount; r++){
+                    var b=bricks[c][r];
+                    if(b.status==1){
+                        if(x>b.x && x<b.x+brickWidth && y>b.y && y<b.y+brickHeight){
+                            dy=-dy;
+                            b.status=0;
+                            score++;
+                            if(score==brickColoumnCount*brickRowCount){
+                                alert("Felicitaciones has ganado el juego");
+                                document.location.reload();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        //Añadimos la función para mostrar las vidas restantes al jugador
+        function drawLives(){
+            ctx.font="16px Arial";
+            ctx.fillStyle="#0095DD";
+            ctx.fillText("Lives: "+lives, canvas.width-65,20);
+        }
+        //Añadimmos la funcion para dibujar el contador de puntos en la pantalla
+        function drawScore(){
+            ctx.font="16px, Arial";
+            ctx.fillStyle="#0095DD";
+            ctx.fillText("score: "+score,8,20); //Los ultimos parámetros de esta linea son coordenadas donde se va a ubicar
+        }
+        function draw(){
+        //eliminamos el rastro recidual del movimiento
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        //llamamos al metodo para dibujar los objetos
+            drawBall();
+            drawPaddle();
+            drawBricks();
+            collisionDetection();
+            drawScore();
+            drawLives();
+        //añadimos el cambio a las variables x e y para que se note el movimiento en cada intervalo
+            if(y+dy<ballRadius){
+                dy=-dy;
+            }else if(y+dy>canvas.height-ballRadius-paddleY){
+                if(x >= paddleX && x <= paddleX + paddleWidth && y<canvas.height+paddleHeight-paddleY) {
+                    dy = -dy;
+                }else if(x < paddleX || x > paddleX + paddleWidth){
+                    if(y>canvas.height-ballRadius){
+                        lives--;
+                        if(lives==0){
+                            alert("Game Over");
+                        document.location.reload();
+                        }else{
+                            x=canvas.width/2;
+                            y=canvas.height-40;
+                            dx=2;
+                            dy=-2;
+                            paddleX=(canvas.width-paddleWidth)/2;
+                        } 
+                        dy=-dy;
+                    }
+                }else{
+                    alert("Ah ocurrido un bug, receteas el nivel");
+                    x=canvas.width/2;
+                    y=canvas.height-40;
+                    dx=2;
+                    dy=-2;
+                    paddleX=(canvas.width-paddleWidth)/2;
+                }
+            }
+            if(x+dx>canvas.width-ballRadius || x+dx<ballRadius){
+                dx=-dx;
+            }
+            if(rightPressed && paddleX<canvas.width-paddleWidth) {
+                paddleX += 7;
+            }
+            else if(leftPressed && paddleX>0) {
+                paddleX -= 7;
+            }
+            x += dx;
+            y += dy;
+
+            requestAnimationFrame(draw);
+        }
+        //Definimos el bucle infinito de la bola
+        draw();
+    
+    </script>
+    
+</body>
+</html>
