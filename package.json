@@ -4,7 +4,8 @@
   "description": "",
   "main": "conneccion.js",
   "scripts": {
-    "test": "node conneccion.js",
+    "test": "nodemon ./bin/www",
+    "build": "node conneccion.js",
     "dev": "nodemon ./bin/www"
   },
   "keywords": [],
