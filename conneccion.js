@@ -1,15 +1,19 @@
+require('dotenv').config();
 const express = require('express');
 const mysql = require('mysql');
 var app = express();
 
 var bodyParser= require('body-parser');
-var con = mysql.createConnection({
-	host:'microservicio-basico-server-basedatos.mysql.database.azure.com',
-	user:'slhvvwfwqq',
-	password:'4547K2771HW2C1RI$',
-	database:'microservicio',
-	port: "3306"
-})
+var con = mysql.createConnection(process.env.DATABASE_URL);
+// var con = mysql.createConnection({
+// 	host:'aws.connect.psdb.cloud',
+// 	user:'zijifobhzdqbr3iqhqv2',
+// 	password:'pscale_pw_apFcsSUuxBSGNzZa8jneM5D8MRDxBvIwCvT2CrNhsDS',
+// 	database:'microserviciopractica8',
+// 	port: "3306"
+// })
+
+//'mysql://zijifobhzdqbr3iqhqv2:pscale_pw_apFcsSUuxBSGNzZa8jneM5D8MRDxBvIwCvT2CrNhsDS@aws.connect.psdb.cloud/microserviciopractica8?ssl={"rejectUnauthorized":true}'
 con.connect()
 
 app.use(bodyParser.json())
