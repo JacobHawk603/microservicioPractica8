@@ -30,7 +30,7 @@ app.post('/agregarUsuario', (req,res)=>{
 	let nombre = req.body.nombre
 	con.query('INSERT INTO usuario values("'+nombre+'")', (err, respuesta, fields)=>{
 		if(err) return console.log('ERROR', err);
-		return res.redirect("http://localhost:8080/breakout.html")
+		return res.redirect("/breakout.html")
 	})
 })
 
