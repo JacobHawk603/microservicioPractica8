@@ -4,7 +4,7 @@ const mysql = require('mysql2');
 var app = express();
 
 var bodyParser= require('body-parser');
-var con = mysql.createConnection(process.env.DATABASE_URL);
+var con = mysql.createConnection('mysql://zijifobhzdqbr3iqhqv2:pscale_pw_apFcsSUuxBSGNzZa8jneM5D8MRDxBvIwCvT2CrNhsDS@aws.connect.psdb.cloud/microserviciopractica8?ssl={"rejectUnauthorized":true}');
 // var con = mysql.createConnection({
 // 	host: process.env.HOST,
 // 	user: process.env.USER,
