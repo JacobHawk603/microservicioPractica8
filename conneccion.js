@@ -1,16 +1,17 @@
 require('dotenv').config();
 const express = require('express');
-const mysql = require('mysql');
+const mysql = require('mysql2');
 var app = express();
 
 var bodyParser= require('body-parser');
 var con = mysql.createConnection(process.env.DATABASE_URL);
 // var con = mysql.createConnection({
-// 	host:'aws.connect.psdb.cloud',
-// 	user:'zijifobhzdqbr3iqhqv2',
-// 	password:'pscale_pw_apFcsSUuxBSGNzZa8jneM5D8MRDxBvIwCvT2CrNhsDS',
-// 	database:'microserviciopractica8',
-// 	port: "3306"
+// 	host: process.env.HOST,
+// 	user: process.env.USER,
+// 	password: process.env.PASSWORD,
+// 	database: process.env.DATABASE,
+// 	port: process.env.PORT,
+// 	ssl: {"rejectUnauthorized":true}
 // })
 
 //'mysql://zijifobhzdqbr3iqhqv2:pscale_pw_apFcsSUuxBSGNzZa8jneM5D8MRDxBvIwCvT2CrNhsDS@aws.connect.psdb.cloud/microserviciopractica8?ssl={"rejectUnauthorized":true}'
